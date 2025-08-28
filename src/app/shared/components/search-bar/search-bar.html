@@ -1,0 +1,16 @@
+<div class="mb-6 relative">
+  <input
+    type="text"
+    placeholder="Buscar produto..."
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearchChange()"
+    class="w-full px-4 py-2 rounded-xl border border-gray-700 bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+  />
+
+  <!-- Loading animado -->
+  <div *ngIf="loading" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+    <div
+      class="w-5 h-5 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"
+    ></div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-gradient-to-r from-angular-start via-angular-middle to-angular-end p-8">
+  <app-search-bar (search)="searchTerm = $event"></app-search-bar>
+
+  @if (loading) {
+  <div class="flex flex-col items-center justify-center space-y-4 mt-20">
+    <svg
+      class="animate-spin h-12 w-12 text-gray-200"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 010 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+      ></path>
+    </svg>
+    <p class="text-gray-200 text-lg font-semibold">Carregando produtos...</p>
+  </div>
+  } @else if (error) {
+  <p class="text-red-400">{{ error }}</p>
+  } @else {
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @for (product of filteredProducts; track product.id) {
+    <div
+      [routerLink]="['/product', product.id]"
+      class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-pink-500/30 cursor-pointer"
+    >
+      <img
+        [src]="product.thumbnail || product.image"
+        alt="{{ product.title }}"
+        class="w-full h-48 object-contain bg-black"
+      />
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-white mb-2 truncate">
+          {{ product.title }}
+        </h3>
+        <div class="mt-4 flex items-center justify-between">
+          <strong class="text-pink-400 text-lg">R$ {{ product.price }}</strong>
+          <button
+            class="px-3 py-1 text-sm rounded-lg bg-pink-600 hover:bg-pink-700 transition text-white"
+          >
+            Comprar
+          </button>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    <div class="col-span-full text-center mt-20">
+      <img
+        src="/assets/images/not-found.png"
+        alt="Produto não encontrado"
+        class="mx-auto w-80 h-80 mb-4"
+      />
+    </div>
+    }
+  </div>
+  }
+</div>

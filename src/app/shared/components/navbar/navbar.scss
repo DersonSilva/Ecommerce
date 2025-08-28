@@ -1,0 +1,25 @@
+nav {
+  background: #121212;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+  img {
+    width: 100%;
+    max-width: 50px;
+    object-fit: contain;
+  }
+
+  a {
+    color: #fff;
+    margin-left: 1rem;
+    transition: color 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: #e91e63;
+    }
+  }
+}
