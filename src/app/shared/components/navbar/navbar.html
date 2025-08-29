@@ -2,9 +2,20 @@
   <div class="flex items-center gap-3">
     <img src="/assets/images/logo-ecommerce.png" style="width: 300px" alt="Logo" />
   </div>
+
   <div class="flex items-center gap-4">
     <a routerLink="/" class="hover:text-pink-400 transition">Home</a>
     <a routerLink="/products" class="hover:text-pink-400 transition">Produtos</a>
     <a routerLink="/about" class="hover:text-pink-400 transition">Sobre</a>
+
+    <a routerLink="/cart" class="relative text-white px-3 py-1 rounded hover:bg-pink-700">
+      🛒
+      <span
+        *ngIf="cartCount > 0"
+        class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
+      >
+        {{ cartCount }}
+      </span>
+    </a>
   </div>
 </nav>

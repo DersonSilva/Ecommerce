@@ -1,0 +1,81 @@
+<!-- checkout.component.html -->
+<div class="max-w-3xl mx-auto p-6 bg-gray-900 rounded-2xl shadow-lg mt-10">
+  <h2 class="text-3xl font-bold text-white mb-6 border-b border-gray-700 pb-3">
+    💳 Finalizar Compra
+  </h2>
+
+  <!-- Lista de produtos -->
+  <div class="space-y-4 mb-6">
+    <div
+      *ngFor="let item of cart"
+      class="flex justify-between items-center bg-gray-800 p-4 rounded-lg shadow-md"
+    >
+      <div>
+        <p class="text-white font-medium">{{ item.title }}</p>
+        <p class="text-gray-400 text-sm">Qtd: {{ item.quantity }}</p>
+      </div>
+      <p class="text-pink-400 font-semibold">R$ {{ item.price * item.quantity }}</p>
+    </div>
+  </div>
+
+  <p class="text-lg font-semibold text-pink-400 mb-6">Total: R$ {{ total }}</p>
+
+  <!-- Formulário de cliente -->
+  <form (ngSubmit)="confirmPayment()" class="space-y-4">
+    <div>
+      <label class="block text-white mb-1">Nome</label>
+      <input
+        [(ngModel)]="customer.name"
+        name="name"
+        type="text"
+        placeholder="Seu nome"
+        class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+        required
+      />
+    </div>
+
+    <div>
+      <label class="block text-white mb-1">Email</label>
+      <input
+        [(ngModel)]="customer.email"
+        name="email"
+        type="email"
+        placeholder="email@exemplo.com"
+        class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+        required
+      />
+    </div>
+
+    <div>
+      <label class="block text-white mb-1">Endereço</label>
+      <textarea
+        [(ngModel)]="customer.address"
+        name="address"
+        placeholder="Rua, número, cidade, CEP"
+        class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label class="block text-white mb-1">Forma de Pagamento</label>
+      <select
+        [(ngModel)]="customer.paymentMethod"
+        name="paymentMethod"
+        class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+      >
+        <option value="credit">Cartão de Crédito</option>
+        <option value="debit">Cartão de Débito</option>
+        <option value="pix">PIX</option>
+        <option value="boleto">Boleto</option>
+      </select>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-pink-600 hover:bg-pink-500 text-white py-3 rounded-xl font-semibold shadow transition"
+    >
+      Confirmar Pagamento
+    </button>
+  </form>
+</div>

@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
 import { SearchBarComponent } from '../search-bar/search-bar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CartService } from '../../../core/services/cart.service'; // <-- importa aqui
 
 @Component({
   selector: 'app-product-list',
@@ -19,7 +20,15 @@ export class ProductListComponent implements OnInit {
   error = '';
   searchTerm: string = '';
 
-  constructor(private productService: ProductService) {}
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
+  showToast = false;
+
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
@@ -35,11 +44,34 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  get filteredProducts(): Product[] {
-    if (!this.searchTerm) return this.products;
+  get filteredForList(): Product[] {
+    if (!this.searchTerm || this.searchTerm.length < 1) return this.products;
     return this.products.filter((product) =>
       product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  get filteredForDropdown(): Product[] {
+    if (!this.searchTerm || this.searchTerm.length < 1) return [];
+    return this.products.filter((product) =>
+      product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  addToCart(product: Product) {
+    this.cartService.addProduct(product);
+    console.log(`${product.title} adicionado ao carrinho!`);
+
+    // Navega para a tela de carrinho
+    this.router.navigate(['/cart']);
+  }
+
+  goToProduct(product: Product) {
+    // Navega para a página de detalhes do produto
+    this.router.navigate(['/product', product.id]);
+
+    // Limpa a pesquisa e o dropdown
+    this.searchTerm = '';
   }
 
   translate(text: string): string {
@@ -49,7 +81,6 @@ export class ProductListComponent implements OnInit {
       'great product': 'ótimo produto',
     };
 
-    // percorre cada chave e substitui se encontrar
     Object.keys(dict).forEach((key) => {
       if (text.includes(key)) {
         text = text.replace(key, dict[key]);

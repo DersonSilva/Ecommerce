@@ -6,6 +6,8 @@ import './twind-setup';
 
 import { ProductListComponent } from './app/shared/components/product-list/product-list';
 import { ProductDetailsComponent } from './app/shared/components/product-details/product-details';
+import { CartComponent } from './app/features/cart/cart';
+import { CheckoutComponent } from './app/features/checkout/checkout';
 
 bootstrapApplication(App, {
   providers: [
@@ -13,6 +15,8 @@ bootstrapApplication(App, {
     provideRouter([
       { path: '', component: ProductListComponent }, // rota raiz
       { path: 'product/:id', component: ProductDetailsComponent }, // detalhes
+      { path: 'cart', component: CartComponent }, // ⬅ rota para o carrinho
+      { path: 'checkout', component: CheckoutComponent },
     ]),
   ],
 });

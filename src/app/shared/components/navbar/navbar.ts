@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CartService } from '../../../core/services/cart.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrls: ['./navbar.scss'],
 })
-export class Navbar {
+export class NavbarComponent implements OnInit {
+  cartCount = 0;
 
+  constructor(private cartService: CartService) {}
+
+  ngOnInit() {
+    // Subscribing ao BehaviorSubject para updates em tempo real
+    this.cartService.cart$.subscribe((cart) => {
+      this.cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    });
+  }
 }

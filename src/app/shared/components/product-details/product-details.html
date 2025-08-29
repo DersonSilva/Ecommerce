@@ -13,8 +13,15 @@
         <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
         <p class="text-gray-300 mb-6">{{ product.description }}</p>
         <p class="text-pink-400 text-2xl font-semibold mb-6">R$ {{ product.price }}</p>
+        <!-- <button
+          class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl transition text-white text-lg font-semibold"
+        >
+          Comprar Agora
+        </button> -->
+
         <button
           class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl transition text-white text-lg font-semibold"
+          (click)="comprarAgora()"
         >
           Comprar Agora
         </button>

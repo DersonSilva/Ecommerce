@@ -19,7 +19,7 @@ export class ProductService {
 
   getAllProducts(): Observable<Product[]> {
     return this.http
-      .get<{ products: Product[] }>(`${this.apiURL}?limit=10`)
+      .get<{ products: Product[] }>(`${this.apiURL}?limit=20`)
       .pipe(map((response) => response.products));
   }
 
