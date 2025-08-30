@@ -2,18 +2,9 @@
 
 @mixin angular-gradient-bg {
   background: linear-gradient(
-    45deg,
+    to right,
     vars.$angular-gradient-start,
     vars.$angular-gradient-middle,
     vars.$angular-gradient-end
   );
-  color: vars.$text-color;
-}
-
-@mixin card-style {
-  background-color: vars.$card-background;
-  border: 1px solid vars.$card-border;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }

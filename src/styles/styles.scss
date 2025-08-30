@@ -16,3 +16,11 @@ h4,
 h5 {
   color: vars.$text-color;
 }
+
+.my-angular-gradient {
+  @include mix.angular-gradient-bg;
+}
+
+.text-purple {
+  color: vars.$text-purple;
+}
