@@ -1,24 +1,32 @@
 <div class="min-h-screen bg-gradient-to-r from-angular-start via-angular-middle to-angular-end p-8">
   <div class="relative w-full">
     <app-search-bar (search)="searchTerm = $event"></app-search-bar>
-
     <div
-      *ngIf="filteredForDropdown.length > 0"
+      *ngIf="searchTerm && searchTerm.length > 0"
       class="absolute z-50 w-full bg-gray-800 rounded-b-xl shadow-lg max-h-64 overflow-y-auto"
     >
       <div
-        *ngFor="let product of filteredForList"
+        *ngFor="let product of filteredForDropdown"
         (click)="goToProduct(product)"
         class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-3"
       >
         <img [src]="product.thumbnail" class="w-12 h-12 object-cover rounded" />
         <div class="text-white text-sm truncate">{{ product.title }}</div>
       </div>
+
+      <div
+        *ngIf="filteredForDropdown.length === 0"
+        class="px-4 py-3 text-gray-400 text-sm text-center"
+      >
+        Nenhum Produto encontrado
+      </div>
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row items-center justify-between mb-12">
-    <div class="text-center md:text-left md:w-1/2 space-y-6">
+  <div
+    class="flex flex-col md:flex-row items-center justify-between mb-20 px-6 md:px-20 max-w-6xl mx-auto gap-24"
+  >
+    <div class="text-center md:text-left md:w-1/2 space-y-8">
       <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight">
         Bem-vindo à <span class="text-pink-400">Infinity Tech</span>
       </h1>
@@ -71,60 +79,62 @@
     } @else if (error) {
     <p class="text-red-400">{{ error }}</p>
     } @else {
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      @for (product of filteredForList; track product.id) {
-
-      <div
-        [routerLink]="['/product', product.id]"
-        class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-pink-500/30 cursor-pointer"
-      >
-        <img
-          [src]="product.thumbnail || product.image"
-          alt="{{ product.title }}"
-          class="w-full h-48 object-contain bg-black"
-        />
-        <div class="p-4">
-          <h3 class="text-lg font-semibold text-white mb-2 truncate">
-            {{ product.title }}
-          </h3>
-          <div class="mt-4 flex items-center justify-between">
-            <strong class="text-pink-400 text-lg">R$ {{ product.price }}</strong>
-            <button
-              (click)="addToCart(product); $event.stopPropagation()"
-              class="flex items-center gap-2 px-3 py-1 text-sm rounded-lg bg-pink-600 hover:bg-pink-700 transition text-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5"
+    <!-- Container centralizado -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        @for (product of filteredForList; track product.id) {
+        <div
+          [routerLink]="['/product', product.id]"
+          class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-pink-500/30 cursor-pointer"
+        >
+          <img
+            [src]="product.thumbnail || product.image"
+            alt="{{ product.title }}"
+            class="w-full h-48 object-contain bg-black"
+          />
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-white mb-2 truncate">
+              {{ product.title }}
+            </h3>
+            <div class="mt-4 flex items-center justify-between">
+              <strong class="text-pink-400 text-lg">R$ {{ product.price }}</strong>
+              <button
+                (click)="addToCart(product); $event.stopPropagation()"
+                class="flex items-center gap-2 px-3 py-1 text-sm rounded-lg bg-pink-600 hover:bg-pink-700 transition text-white"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M2.25 2.25h1.386c.51 0 .955.343
-                 1.087.835l.383 1.437m0 0L6.75 12.75h10.5l1.875-7.5H5.106
-                 m0 0-1.49-5.58A.75.75 0 003 0.75H1.5M6.75
-                 12.75l-1.5 6h13.5m-12 0a1.5 1.5 0
-                 11-3 0 1.5 1.5 0 013 0zm12 0a1.5
-                 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 2.25h1.386c.51 0 .955.343
+                      1.087.835l.383 1.437m0 0L6.75 12.75h10.5l1.875-7.5H5.106
+                      m0 0-1.49-5.58A.75.75 0 003 0.75H1.5M6.75
+                      12.75l-1.5 6h13.5m-12 0a1.5 1.5 0
+                      11-3 0 1.5 1.5 0 013 0zm12 0a1.5
+                      1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+        } @empty {
+        <div class="col-span-full text-center mt-20">
+          <img
+            src="/assets/images/not-found.png"
+            alt="Produto não encontrado"
+            class="mx-auto w-80 h-80 mb-4"
+          />
+        </div>
+        }
       </div>
-      } @empty {
-      <div class="col-span-full text-center mt-20">
-        <img
-          src="/assets/images/not-found.png"
-          alt="Produto não encontrado"
-          class="mx-auto w-80 h-80 mb-4"
-        />
-      </div>
-      }
     </div>
     }
   </div>

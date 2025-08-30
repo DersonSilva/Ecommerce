@@ -1,57 +1,96 @@
 <div
-  class="min-h-screen bg-gradient-to-r from-angular-start via-angular-middle to-angular-end p-8 flex items-center justify-center"
+  class="min-h-screen bg-gradient-to-r from-purple-900 via-gray-900 to-black p-10 flex items-center justify-center"
 >
   @if (product) {
-  <div class="bg-gray-900 rounded-2xl shadow-lg p-8 max-w-4xl w-full text-white">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+  <div
+    class="bg-gray-800/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 max-w-6xl w-full text-white"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <img
-        [src]="product.thumbnail"
+        [src]="selectedImage || product.thumbnail"
         alt="{{ product.title }}"
-        class="w-full h-[400px] object-contain rounded-lg bg-black"
+        class="w-full h-[400px] object-contain rounded-xl shadow-lg cursor-zoom-in hover:scale-105 transition"
+        (click)="openImageModal(selectedImage || product.thumbnail)"
       />
-      <div>
-        <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
-        <p class="text-gray-300 mb-6">{{ product.description }}</p>
-        <p class="text-pink-400 text-2xl font-semibold mb-6">R$ {{ product.price }}</p>
-        <!-- <button
-          class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl transition text-white text-lg font-semibold"
-        >
-          Comprar Agora
-        </button> -->
 
-        <button
-          class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl transition text-white text-lg font-semibold"
-          (click)="comprarAgora()"
+      <div class="flex gap-3 overflow-x-auto">
+        <img
+          *ngFor="let img of productImages"
+          [src]="img"
+          (click)="setSelectedImage(img)"
+          class="w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-pink-500 transition"
+          [class.border-pink-500]="selectedImage === img"
+        />
+      </div>
+
+      <div class="space-y-6">
+        <span class="px-4 py-1 bg-pink-600 text-sm font-bold rounded-full uppercase tracking-wide"
+          >Novo</span
         >
-          Comprar Agora
-        </button>
+        <h1 class="text-4xl font-extrabold leading-tight">{{ product.title }}</h1>
+        <p class="text-gray-300 text-lg">{{ product.description }}</p>
+        <div class="text-3xl font-bold text-pink-400">R$ {{ product.price }}</div>
+
+        <div class="flex gap-4 mt-6">
+          <button
+            class="flex-1 px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-xl shadow-lg text-lg font-semibold transition"
+            (click)="comprarAgora()"
+          >
+            Comprar Agora
+          </button>
+          <button
+            class="flex-1 px-6 py-3 border border-gray-500 hover:border-pink-500 rounded-xl text-lg transition"
+            (click)="addToCart(product)"
+          >
+            Adicionar ao Carrinho
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+          <div class="bg-gray-700 p-4 rounded-xl">
+            <h4 class="text-sm text-gray-400">Marca</h4>
+            <p class="font-semibold">{{ product.brand || 'Desconhecida' }}</p>
+          </div>
+          <div class="bg-gray-700 p-4 rounded-xl">
+            <h4 class="text-sm text-gray-400">Categoria</h4>
+            <p class="font-semibold">{{ product.category }}</p>
+          </div>
+          <div class="bg-gray-700 p-4 rounded-xl">
+            <h4 class="text-sm text-gray-400">Estoque</h4>
+            <p class="font-semibold">{{ product.stock }} unidades</p>
+          </div>
+          <div class="bg-gray-700 p-4 rounded-xl">
+            <h4 class="text-sm text-gray-400">Rating</h4>
+            <p class="font-semibold">⭐ {{ product.rating }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   } @else {
-  <!-- Spinner Tailwind cinza clarinho -->
   <div class="flex flex-col items-center justify-center space-y-4">
-    <svg
-      class="animate-spin h-12 w-12 text-gray-200"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        class="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        stroke-width="4"
-      ></circle>
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 010 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
-      ></path>
-    </svg>
+    <div
+      class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"
+    ></div>
     <p class="text-gray-200 text-lg font-semibold">Carregando produto...</p>
   </div>
   }
+</div>
+
+<div
+  *ngIf="imageModalOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4"
+  (click)="closeImageModal()"
+>
+  <img
+    [src]="modalImage"
+    class="max-w-[95%] max-h-[95%] object-contain rounded-lg"
+    (click)="$event.stopPropagation()"
+  />
+  <button
+    class="absolute top-6 right-6 bg-white text-black rounded-full p-2 shadow"
+    (click)="closeImageModal()"
+  >
+    ✕
+  </button>
 </div>

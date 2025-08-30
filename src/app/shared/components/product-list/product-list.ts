@@ -45,10 +45,7 @@ export class ProductListComponent implements OnInit {
   }
 
   get filteredForList(): Product[] {
-    if (!this.searchTerm || this.searchTerm.length < 1) return this.products;
-    return this.products.filter((product) =>
-      product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    return this.products;
   }
 
   get filteredForDropdown(): Product[] {
