@@ -9,13 +9,13 @@
     <a routerLink="/about" class="hover:text-pink-400 transition">Sobre</a>
 
     <a routerLink="/cart" class="relative text-white px-3 py-1 rounded hover:bg-pink-700">
-      🛒
+      🛒 @if (cartCount > 0) {
       <span
-        *ngIf="cartCount > 0"
         class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
       >
         {{ cartCount }}
       </span>
+      }
     </a>
   </div>
 </nav>

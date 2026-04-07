@@ -2,26 +2,24 @@
   <div class="mb-6 flex justify-center">
     <div class="relative w-1/2 max-w-6xl">
       <app-search-bar (search)="searchTerm = $event"></app-search-bar>
+
+      @if (searchTerm && searchTerm.length > 0) {
       <div
-        *ngIf="searchTerm && searchTerm.length > 0"
         class="absolute left-0 right-0 mt-1 bg-gray-800 rounded-b-xl shadow-lg max-h-64 overflow-y-auto"
       >
+        @for (product of filteredForDropdown; track product.id) {
         <div
-          *ngFor="let product of filteredForDropdown"
           (click)="goToProduct(product)"
           class="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center gap-3"
         >
           <img [src]="product.thumbnail" class="w-12 h-12 object-cover rounded" />
           <div class="text-white text-sm truncate">{{ product.title }}</div>
         </div>
-
-        <div
-          *ngIf="filteredForDropdown.length === 0"
-          class="px-4 py-3 text-gray-400 text-sm text-center"
-        >
-          Nenhum Produto encontrado
-        </div>
+        } @if (filteredForDropdown.length === 0) {
+        <div class="px-4 py-3 text-gray-400 text-sm text-center">Nenhum Produto encontrado</div>
+        }
       </div>
+      }
     </div>
   </div>
 
@@ -81,7 +79,7 @@
     } @else if (error) {
     <p class="text-red-400">{{ error }}</p>
     } @else {
-    <!-- Container centralizado -->
+
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @for (product of filteredForList; track product.id) {
